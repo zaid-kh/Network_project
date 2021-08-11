@@ -19,10 +19,10 @@ while True:
     headers = sentence.split('\n')
     print(headers)
     file = headers[0].split()[1]
-    # to know the request
+    # request cases
     if file == '/' or file == '/index.html':
         file = 'Main.html'
-        # trying to open the index file and send it to client
+        # requesting Main.html and sending it to client
         try:
             fin = open(file)
             content = fin.read()
@@ -34,30 +34,25 @@ while True:
             connectionSocket.send(bytes("\r\n", "UTF-8"))
             print("\r\n")
             connectionSocket.sendall(bytes(content, "UTF-8"))
-        except FileNotFoundError:  # in case i didn't find the file -> not found -> 404
+        except FileNotFoundError:  # in case file not found => 404
             connectionSocket.send(bytes("HTTP/1.1 404 Not Found \r\n", "UTF-8"))
             print("HTTP/1.1 404 Not Found \r\n")
+        # requesting a jpg image file
     elif file == '/Network1.jpg':
-
-        # open the picture and mode: read & binary
         try:
             fin = open("counter.jpg", "rb")
             connectionSocket.send(bytes("HTTP/1.1 200 OK \r\n", "UTF-8"))
             print("HTTP/1.1 200 OK \r\n")
-            now = datetime.now()
-            connectionSocket.send(bytes("Date and Time: " + now.strftime("%d/%m/%Y, %H:%M:%S") + "\r\n", "UTF-8"))
-            print("Date and Time: " + now.strftime("%d/%m/%Y, %H:%M:%S") + "\r\n")
             connectionSocket.send(bytes("Content-Type: image/jpeg\r\n\r\n", "UTF-8"))
             print("Content-Type: image/jpeg\r\n\r\n")
-            connectionSocket.send(fin.read())  # send the contents of the picture
+            connectionSocket.send(fin.read())
             print(str(fin.read()))
         except FileNotFoundError:
             connectionSocket.send(bytes("HTTP/1.1 404 Not Found \r\n", "UTF-8"))
             print("HTTP/1.1 404 Not Found \r\n")
+        # requesting an html file
     elif file == '/file.html':
-
         file = 'file.html'
-        # trying to open the index file and send it to client
         try:
             fin = open(file)
             content = fin.read()
@@ -69,13 +64,12 @@ while True:
             connectionSocket.send(bytes("\r\n", "UTF-8"))
             print("\r\n")
             connectionSocket.sendall(bytes(content, "UTF-8"))
-        except FileNotFoundError:  # in case i didn't find the file -> not found -> 404
+        except FileNotFoundError:
             connectionSocket.send(bytes("HTTP/1.1 404 Not Found \r\n", "UTF-8"))
             print("HTTP/1.1 404 Not Found \r\n")
+        # requesting a css file
     elif file == '/file.css':
-
-        file = 'file.css'
-        # trying to open the index file and send it to client
+        file = 'Network_styles.css'
         try:
             fin = open(file)
             content = fin.read()
@@ -87,19 +81,15 @@ while True:
             connectionSocket.send(bytes("\r\n", "UTF-8"))
             print("\r\n")
             connectionSocket.sendall(bytes(content, "UTF-8"))
-        except FileNotFoundError:  # in case i didn't find the file -> not found -> 404
+        except FileNotFoundError:
             connectionSocket.send(bytes("HTTP/1.1 404 Not Found \r\n", "UTF-8"))
             print("HTTP/1.1 404 Not Found \r\n")
+        # requesting a png image file
     elif file == '/Network1.png':
         fin = open("decoder.png", "rb")
-        # open the picture and mode: read & binary
         try:
             connectionSocket.send(bytes("HTTP/1.1 200 OK \r\n", "UTF-8"))
             print("HTTP/1.1 200 OK \r\n")
-            now = datetime.now()
-            connectionSocket.send(bytes("Date and Time: " +
-                                        now.strftime("%d/%m/%Y, %H:%M:%S") + "\r\n", "UTF-8"))
-            print("Date and Time: " + now.strftime("%d/%m/%Y, %H:%M:%S") + "\r\n")
             connectionSocket.send(bytes("Content-Type: image/jpeg\r\n\r\n", "UTF-8"))
             print("Content-Type: image/jpeg\r\n\r\n")
             connectionSocket.send(fin.read())  # send the contents of the picture
@@ -107,17 +97,13 @@ while True:
         except FileNotFoundError:
             connectionSocket.send(bytes("HTTP/1.1 404 Not Found \r\n", "UTF-8"))
             print("HTTP/1.1 404 Not Found \r\n")
-
+            # requesting a sorted csv file by name
     elif file == '/SortName':
-
         try:
             df = pd.read_csv("smartphones.csv")
             sorted_names = df.sort_values(by=["Name"], ascending=True)
             connectionSocket.send(bytes("HTTP/1.1 200 OK \r\n", "UTF-8"))
             print("HTTP/1.1 200 OK \r\n")
-            now = datetime.now()  # to send date & time with the response
-            connectionSocket.send(bytes("Date and Time: " + now.strftime("%d/%m/%Y, %H:%M:%S") + "\r\n", "UTF-8"))
-            print("Date and Time: " + now.strftime("%d/%m/%Y, %H:%M:%S") + "\r\n")
             connectionSocket.send(bytes("Content-Type: text/plain\r\n", "UTF-8"))
             print("Content-Type: text/plain\r\n")
             connectionSocket.send(bytes("\r\n", "UTF-8"))
@@ -128,16 +114,13 @@ while True:
         except FileNotFoundError:
             connectionSocket.send(bytes("HTTP/1.1 404 Not Found \r\n", "UTF-8"))
             print("HTTP/1.1 404 Not Found \r\n")
+        # requesting a sorted csv file by price
     elif file == '/SortPrice':
-
         try:
             df = pd.read_csv("smartphones.csv")
             sorted_prices = df.sort_values(by=["Price"], ascending=True)
             connectionSocket.send(bytes("HTTP/1.1 200 OK \r\n", "UTF-8"))
             print("HTTP/1.1 200 OK \r\n")
-            now = datetime.now()  # to send date & time with the response
-            connectionSocket.send(bytes("Date and Time: " + now.strftime("%d/%m/%Y, %H:%M:%S") + "\r\n", "UTF-8"))
-            print("Date and Time: " + now.strftime("%d/%m/%Y, %H:%M:%S") + "\r\n")
             connectionSocket.send(bytes("Content-Type: text/plain\r\n", "UTF-8"))
             print("Content-Type: text/plain\r\n")
             connectionSocket.send(bytes("\r\n", "UTF-8"))
