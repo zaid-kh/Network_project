@@ -1,6 +1,3 @@
-import csv
-from datetime import datetime
-import operator
 from socket import *
 import pandas as pd
 
@@ -10,12 +7,12 @@ serverSocket.bind(("", serverPort))
 serverSocket.listen(1)
 print("the server is ready to receive")
 while True:
-    connectionSocket, addr = serverSocket.accept()
+    connectionSocket, address = serverSocket.accept()
     sentence = connectionSocket.recv(1024).decode()
-    print(addr)
+    print(address)
     print(sentence)
-    ip = addr[0]
-    port = addr[1]
+    ip = address[0]
+    port = address[1]
     headers = sentence.split('\n')
     print(headers)
     file = headers[0].split()[1]
@@ -40,7 +37,7 @@ while True:
         # requesting a jpg image file
     elif file == '/Network1.jpg':
         try:
-            fin = open("counter.jpg", "rb")
+            fin = open("neapolitan.jpg", "rb")
             connectionSocket.send(bytes("HTTP/1.1 200 OK \r\n", "UTF-8"))
             print("HTTP/1.1 200 OK \r\n")
             connectionSocket.send(bytes("Content-Type: image/jpeg\r\n\r\n", "UTF-8"))
@@ -90,8 +87,8 @@ while True:
         try:
             connectionSocket.send(bytes("HTTP/1.1 200 OK \r\n", "UTF-8"))
             print("HTTP/1.1 200 OK \r\n")
-            connectionSocket.send(bytes("Content-Type: image/jpeg\r\n\r\n", "UTF-8"))
-            print("Content-Type: image/jpeg\r\n\r\n")
+            connectionSocket.send(bytes("Content-Type: image/png\r\n\r\n", "UTF-8"))
+            print("Content-Type: image/png\r\n\r\n")
             connectionSocket.send(fin.read())  # send the contents of the picture
             print(str(fin.read()))
         except FileNotFoundError:
