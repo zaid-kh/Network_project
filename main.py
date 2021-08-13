@@ -1,6 +1,23 @@
 from socket import *
 import pandas as pd
 
+
+# function to deal with wrong requests and
+def not_found(file):
+    print("this is the not_found function")
+    file = 'NotFound.html'
+    fin = open(file)
+    content = fin.read()
+    fin.close()
+    connectionSocket.send(bytes("HTTP/1.1 200 OK \r\n", "UTF-8"))
+    print("HTTP/1.1 200 OK \r\n")
+    connectionSocket.send(bytes("Content-Type: text/html\r\n", "UTF-8"))
+    print("Content-Type: text/html\r\n")
+    connectionSocket.send(bytes("\r\n", "UTF-8"))
+    print("\r\n")
+    connectionSocket.sendall(bytes(content, "UTF-8"))
+
+
 serverPort = 9000
 serverSocket = socket(AF_INET, SOCK_STREAM)
 serverSocket.bind(("", serverPort))
@@ -34,6 +51,7 @@ while True:
         except FileNotFoundError:  # in case file not found => 404
             connectionSocket.send(bytes("HTTP/1.1 404 Not Found \r\n", "UTF-8"))
             print("HTTP/1.1 404 Not Found \r\n")
+            not_found(file)
         # requesting a jpg image file
     elif file == '/Network1.jpg':
         try:
@@ -47,6 +65,7 @@ while True:
         except FileNotFoundError:
             connectionSocket.send(bytes("HTTP/1.1 404 Not Found \r\n", "UTF-8"))
             print("HTTP/1.1 404 Not Found \r\n")
+            not_found(file)
         # requesting an html file
     elif file == '/file.html':
         file = 'file.html'
@@ -64,6 +83,7 @@ while True:
         except FileNotFoundError:
             connectionSocket.send(bytes("HTTP/1.1 404 Not Found \r\n", "UTF-8"))
             print("HTTP/1.1 404 Not Found \r\n")
+            not_found(file)
         # requesting a css file
     elif file == '/file.css':
         file = 'Network_styles.css'
@@ -81,6 +101,7 @@ while True:
         except FileNotFoundError:
             connectionSocket.send(bytes("HTTP/1.1 404 Not Found \r\n", "UTF-8"))
             print("HTTP/1.1 404 Not Found \r\n")
+            not_found(file)
         # requesting a png image file
     elif file == '/Network1.png':
         fin = open("decoder.png", "rb")
@@ -94,6 +115,7 @@ while True:
         except FileNotFoundError:
             connectionSocket.send(bytes("HTTP/1.1 404 Not Found \r\n", "UTF-8"))
             print("HTTP/1.1 404 Not Found \r\n")
+            not_found(file)
             # requesting a sorted csv file by name
     elif file == '/SortName':
         try:
@@ -111,6 +133,7 @@ while True:
         except FileNotFoundError:
             connectionSocket.send(bytes("HTTP/1.1 404 Not Found \r\n", "UTF-8"))
             print("HTTP/1.1 404 Not Found \r\n")
+            not_found(file)
         # requesting a sorted csv file by price
     elif file == '/SortPrice':
         try:
@@ -128,3 +151,6 @@ while True:
         except FileNotFoundError:
             connectionSocket.send(bytes("HTTP/1.1 404 Not Found \r\n", "UTF-8"))
             print("HTTP/1.1 404 Not Found \r\n")
+            not_found(file)
+    else:
+        not_found(file)
