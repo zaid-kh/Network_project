@@ -18,7 +18,7 @@ def not_found(file):
     connectionSocket.sendall(bytes(content, "UTF-8"))
 
 
-serverPort = 9000
+serverPort = 5000
 serverSocket = socket(AF_INET, SOCK_STREAM)
 serverSocket.bind(("", serverPort))
 serverSocket.listen(1)
@@ -152,5 +152,6 @@ while True:
             connectionSocket.send(bytes("HTTP/1.1 404 Not Found \r\n", "UTF-8"))
             print("HTTP/1.1 404 Not Found \r\n")
             not_found(file)
+        # wrong request id
     else:
         not_found(file)
