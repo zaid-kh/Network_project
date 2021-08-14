@@ -5,10 +5,8 @@ import pandas as pd
 # function to deal with wrong requests and
 def not_found(file):
     print("this is the not_found function")
-    file = 'NotFound.html'
-    fin = open(file)
-    content = fin.read()
-    fin.close()
+
+    content = '<!DOCTYPE html><html><head><title>Error</title> </head><body><h1><span style="color:red;">The file is not found </span></h1><p id=par> Raya Abu Hanish &#8211 1180241 &emsp;Yasmin Abu Sharbak &#8211 1182523 &emsp;Zaid Khamis &#8211 1182487<style>p#par{font-weight: bold;}</style></p><p>The IP is &#8594 '+ str(ip)+'</p><p>The Port number is &#8594 '+str(port)+'</p></body></html>'
     connectionSocket.send(bytes("HTTP/1.1 200 OK \r\n", "UTF-8"))
     print("HTTP/1.1 200 OK \r\n")
     connectionSocket.send(bytes("Content-Type: text/html\r\n", "UTF-8"))
